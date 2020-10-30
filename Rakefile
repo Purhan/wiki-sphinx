@@ -40,13 +40,21 @@ def copy_wiki_pages
 
       # Add Title
       wikiPageFileName = File.basename(wikiPage) 
-      wikiPagePath     = File.join("#{g('wiki_dest')}", wikiPageFileName)
-      wikiPageName    = wikiPageFileName.sub(/.[^.]+\z/,'')
-      wikiPageTitle   = wikiPageName.gsub("-"," ")
-      fileContent      = File.read(wikiPage)
+      wikiPagePath = File.join("#{g('wiki_dest')}", wikiPageFileName)
+      wikiPageName = wikiPageFileName.sub(/`.[^.]+\z`/,'')
+      wikiPageTitle = wikiPageName.gsub("-"," ")
+      fileContent = File.read(wikiPage)
 
       # Convert Links
       fileContent = fileContent.gsub(wiki_repository, docs_website)
+      fileContent = fileContent.gsub(/\[\[(.+?)\|(.+?)\]\]/){ |_|
+        match = Regexp.last_match
+        "[#{match[1]}](#{docs_website}/#{match[2].gsub(" ","-")})"
+      }
+      fileContent = fileContent.gsub(/\[\[(.+?)\]\]/){ |_|
+        match = Regexp.last_match.gsub(" ","-")
+        "[#{match[1].gsub(" ","-")}](#{docs_website}/#{match[1].gsub(" ","-")})"
+      }
 
       puts "generating #{wikiPagePath}"
       open(wikiPagePath, 'w') do |newWikiPage|
