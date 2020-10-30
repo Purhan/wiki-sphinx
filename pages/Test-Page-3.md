@@ -1,3 +1,3 @@
-# Test Page 3.md
+# Test Page 3
 
 text

@@ -1,4 +1,4 @@
-# Placeholder Page.md
+# Placeholder Page
 
 Placeholder text
 
