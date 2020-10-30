@@ -1,3 +1,4 @@
+
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -18,6 +19,9 @@ import sphinx_material
 # -- Project information -----------------------------------------------------
 
 project = 'Documentation'
+html_title = 'Docs'
+copyright = ''
+author = ''
 
 master_doc = 'index'
 
@@ -34,8 +38,8 @@ templates_path = ['_templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['Readme.md', '.github', 'tutorials/template.md',
-                    '_build', 'Thumbs.db', '.DS_Store', '.venv', '_plugins', '_wiki']
+exclude_patterns = ['Readme.md', '.github', 'requirements.txt',
+                    '_build', 'Thumbs.db', '.DS_Store', 'venv', '_plugins', '_wiki']
 
 
 # -- Options for HTML output -------------------------------------------------

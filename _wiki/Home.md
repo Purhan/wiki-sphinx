@@ -1,1 +1,1 @@
-Welcome to the jekyll-wiki wiki!
+Welcome to the wiki-sphinx wiki!

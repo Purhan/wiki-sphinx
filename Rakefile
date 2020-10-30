@@ -35,12 +35,18 @@ end
 
 def copy_wiki_pages
     Dir.glob("#{g('wiki_source')}/[A-Za-z]*.md") do |wikiPage|
+      wiki_repository = g('wiki_repository_url').gsub('.wiki.git', '/wiki')
+      docs_website = g('docs_website_url')
 
+      # Add Title
       wikiPageFileName = File.basename(wikiPage) 
       wikiPagePath     = File.join("#{g('wiki_dest')}", wikiPageFileName)
       wikiPageName    = wikiPageFileName.sub(/.[^.]+\z/,'')
       wikiPageTitle   = wikiPageName.gsub("-"," ")
       fileContent      = File.read(wikiPage)
+
+      # Convert Links
+      fileContent = fileContent.gsub(wiki_repository, docs_website)
 
       puts "generating #{wikiPagePath}"
       open(wikiPagePath, 'w') do |newWikiPage|
@@ -48,7 +54,6 @@ def copy_wiki_pages
         newWikiPage.puts ""
         newWikiPage.puts fileContent
       end
-
     end
 end
 
@@ -66,6 +71,7 @@ end
 task :sync do |t|
     update_wiki_submodule
     Rake::Task[:wikibuild].execute
+    system "make html"
     if g('commit_and_push') == true
         deploy
     end
@@ -76,6 +82,7 @@ task :wikisub do |t|
 
   puts "adding wiki as submodule"
   wiki_repository = g('wiki_repository_url')
+  docs_website_url = g('docs_website_url')
   command = 'git submodule add ' + wiki_repository + ' ' + g('wiki_source')
   command += ' && git submodule init'
   command += ' && git submodule update'
